@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  api-subscription:
+    build: .
+    volumes:
+      - ./packages/api-subscription/src:/home/resource-checker/packages/api-subscription/src
+      - ./packages/api-subscription/dest:/home/resource-checker/packages/api-subscription/dest
+      - ./packages/api-subscription/tests:/home/resource-checker/packages/api-subscription/tests
+    command: "/bin/sh /home/resource-checker/packages/api-subscription/start-dev.sh"
+    tty: true
+    ports:
+      - 8000:8000
+    environment:
+      - PORT=8000
+      - MONGO_PORT=27017
+      - MONGO_HOST=mongodb
+      - MONGO_DATABASE=subscriptions
+  mongodb:
+    image: mongo:4.0.3
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+
+volumes:
+    mongodb:

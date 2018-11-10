@@ -1,0 +1,16 @@
+{
+  "compileOnSave": true,
+  "exclude": [
+    "node_modules",
+    "**/*.spec.js"
+  ],
+  "compilerOptions": {
+      "allowJs": false,
+      "experimentalDecorators": true,
+      "module": "CommonJS",
+      "noImplicitAny": true,
+      "sourceMap": true,
+      "strictNullChecks": true,
+      "target": "es6"
+  }
+}
