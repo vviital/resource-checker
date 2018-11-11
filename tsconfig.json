@@ -6,6 +6,10 @@
   ],
   "compilerOptions": {
       "allowJs": false,
+      "allowSyntheticDefaultImports": true,
+      "composite": true,
+      "declaration": true,
+      "declarationMap": true,
       "experimentalDecorators": true,
       "module": "CommonJS",
       "noImplicitAny": true,

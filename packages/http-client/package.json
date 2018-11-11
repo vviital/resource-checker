@@ -1,0 +1,26 @@
+{
+  "name": "@resource-checker/http-client",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "vviital <vviital@tut.by>",
+  "homepage": "https://github.com/vviital/resource-checker#readme",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vviital/resource-checker.git"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "bugs": {
+    "url": "https://github.com/vviital/resource-checker/issues"
+  },
+  "dependencies": {
+    "@keyv/redis": "^1.3.8",
+    "got": "^9.3.2"
+  }
+}

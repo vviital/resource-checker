@@ -4,9 +4,7 @@ services:
   api-subscription:
     build: .
     volumes:
-      - ./packages/api-subscription/src:/home/resource-checker/packages/api-subscription/src
-      - ./packages/api-subscription/dest:/home/resource-checker/packages/api-subscription/dest
-      - ./packages/api-subscription/tests:/home/resource-checker/packages/api-subscription/tests
+      - ./packages:/home/resource-checker/packages
     command: "/bin/sh /home/resource-checker/packages/api-subscription/start-dev.sh"
     tty: true
     ports:
