@@ -1,5 +1,5 @@
 {
-  "name": "api-subscription",
+  "name": "@resource-checker/api-subscription",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "vviital <vviital@tut.by>",
@@ -11,8 +11,9 @@
     "url": "git+https://github.com/vviital/resource-checker.git"
   },
   "scripts": {
-    "build": "tsc",
-    "build-incremental": "tsc -w --project .",
+    "build": "yarn clean && tsc --build",
+    "build-incremental": "tsc --build --watch",
+    "clean": "rm -rf dest",
     "start": "node dest/index.js",
     "start-dev": "nodemon dest/index.js",
     "test": "jest"
@@ -21,6 +22,7 @@
     "url": "https://github.com/vviital/resource-checker/issues"
   },
   "dependencies": {
+    "@resource-checker/http-client": "^0.0.0",
     "boom": "^7.2.2",
     "change-case": "^3.0.2",
     "got": "^9.3.2",

@@ -1,11 +1,11 @@
-import * as got from 'got';
+import { JsonHttpClient } from '@resource-checker/http-client';
 
 import { setupTestSuit, ITestSuit } from '../index';
-import { string } from 'joi';
 
 describe('CRUD operations over /subscriptions endpoint', () => {
   let scope: ITestSuit;
   let subscription: any;
+  const client = new JsonHttpClient({ defaultOptions: { throwHttpErrors: false } });
 
   beforeAll(async () => {
     scope = setupTestSuit();
@@ -17,14 +17,12 @@ describe('CRUD operations over /subscriptions endpoint', () => {
   });
 
   it('should create subscription', async () => {
-    const { body: response, statusCode } = await got(`${scope.endpoint}/subscriptions`, {
-      method: 'POST',
-      body: {
-        url: 'http://test.com',
-        email: 'test@test.com',
-      },
-      json: true,
-    });
+    const body = {
+      url: 'http://test.com',
+      email: 'test@test.com',
+    };
+
+    const { body: response, statusCode } = await client.post(`${scope.endpoint}/subscriptions`, body);
 
     subscription = response;
 
@@ -37,15 +35,15 @@ describe('CRUD operations over /subscriptions endpoint', () => {
   })
 
   it('should failed to create subscription with wrong url and email', async () => {
-    const { body: response, statusCode } = await got(`${scope.endpoint}/subscriptions`, {
-      method: 'POST',
-      body: {
-        url: 'test',
-        email: 'test.test.com',
-      },
-      json: true,
-      throwHttpErrors: false,
-    });
+    const body = {
+      url: 'test',
+      email: 'test.test.com',
+    };
+
+    const {
+      body: response,
+      statusCode,
+    } = await client.post(`${scope.endpoint}/subscriptions`, body);
   
     expect(statusCode).toEqual(400);
     expect(response).toEqual({
@@ -56,8 +54,7 @@ describe('CRUD operations over /subscriptions endpoint', () => {
   });
 
   it('should return created subscription', async () => {
-    const url = `${scope.endpoint}/subscriptions/${subscription.id}`;
-    const { body, statusCode } = await got(url, { json: true });
+    const { body, statusCode } = await client.get(`${scope.endpoint}/subscriptions/${subscription.id}`);
 
     expect(statusCode).toEqual(200);
     expect(body).toEqual(subscription);
@@ -65,23 +62,19 @@ describe('CRUD operations over /subscriptions endpoint', () => {
 
   it('should update created subscription', async () => {
     const url = `${scope.endpoint}/subscriptions/${subscription.id}`;
-    const { body, statusCode } = await got(url, {
-      method: 'PATCH',
-      body: {
-        revisionObject: { field: 'some revision data' },
-        type: 'type',
-      },
-      json: true,
-    });
+    const update = {
+      revisionObject: { field: 'some revision data' },
+      type: 'type',
+    };
+
+    const { body, statusCode } = await client.patch(url, update);
 
     expect(statusCode).toEqual(204);
     expect(body).toEqual('');
 
-    const { body: updatedSubscription } = await got(url, { json: true });
+    const { body: updatedSubscription } = await client.get(url);
 
     subscription = updatedSubscription;
-
-    console.log('subscription', subscription);
 
     expect(subscription).toEqual(expect.objectContaining({
       url: 'http://test.com',
@@ -97,20 +90,14 @@ describe('CRUD operations over /subscriptions endpoint', () => {
 
   it('should delete created subscription', async () => {
     const url = `${scope.endpoint}/subscriptions/${subscription.id}`;
-    const { body, statusCode } = await got(url, {
-      method: 'DELETE',
-      json: true,
-    });
+    const { body, statusCode } = await client.delete(url);
 
     expect(statusCode).toEqual(204);
     expect(body).toEqual('');
   });
 
   it('should return 404 error when try to access deleted subscription', async () => {
-    const { body, statusCode } = await got(`${scope.endpoint}/subscriptions/${subscription.id}`, {
-      json: true,
-      throwHttpErrors: false,
-    });
+    const { statusCode } = await client.get(`${scope.endpoint}/subscriptions/${subscription.id}`)
 
     expect(statusCode).toEqual(404);
   });
