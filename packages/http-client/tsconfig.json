@@ -4,6 +4,7 @@
     "src/**/*"
   ],
   "compilerOptions": {
-    "outDir": "dest"
+    "outDir": "dest",
+    "rootDir": "src"
   }
 }

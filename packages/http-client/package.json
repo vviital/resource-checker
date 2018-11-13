@@ -5,7 +5,7 @@
   "author": "vviital <vviital@tut.by>",
   "homepage": "https://github.com/vviital/resource-checker#readme",
   "license": "ISC",
-  "main": "./src/index.ts",
+  "main": "./dest/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -14,6 +14,8 @@
     "url": "git+https://github.com/vviital/resource-checker.git"
   },
   "scripts": {
+    "build": "yarn clean && tsc --build",
+    "clean": "rm -rf dest",
     "test": ""
   },
   "bugs": {
