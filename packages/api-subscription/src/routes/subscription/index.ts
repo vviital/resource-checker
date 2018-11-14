@@ -57,7 +57,11 @@ const createRoutes = (options: IHandlerOptions): IRouteConfig[] => {
       validate: {
         params: schemas.id,
       },
-    },
+    }
+  }, {
+    method: 'GET',
+    path: `${basepath}/next/{timestamp}`,
+    handler: handler.getNext.bind(handler),
   }];
 
   return mapping;

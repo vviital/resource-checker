@@ -63,6 +63,20 @@ class SubscriptionHandler {
     
     return h.response().code(204);
   }
+
+  public async getNext(request: Request, h: ResponseToolkit) {
+    const timestamp = request.params.timestamp;
+
+    const Subscription = (this.Subscription as unknown as ISubscriptionModel);
+
+    const subscription = await Subscription.getNext(+timestamp);
+
+    if (!subscription) {
+      throw new DocumentNotFoundError('Subscription not found');
+    }
+
+    return h.response(subscription).code(200);
+  }
 }
 
 export default SubscriptionHandler;

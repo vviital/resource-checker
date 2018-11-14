@@ -4,6 +4,7 @@ import * as errors from '../../../errors';
 interface IOptions {
   name: string,
   connection: Connection,
+  [key: string]: any,
 }
 
 class BaseSchema<T extends Document> {

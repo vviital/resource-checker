@@ -4,13 +4,15 @@ import BaseSchema from '../base';
 import { createSubscriptionModel } from '../../datasources';
 
 interface IRevision {
-  revisionObject: object,
-  type: string,
+  revisionObject: object;
+  type: string;
+  [key: string]: any;
 }
 
 export interface ISubscriptionModel {
   findByUrlAndEmail(email: string, url: string): Promise<object|null>;
   addRevision(id: string, revision: IRevision): Promise<void>;
+  getNext(timestamp: number): Promise<object|null>;
 }
 
 class Subscription extends BaseSchema<Document> implements ISubscriptionModel {
@@ -36,6 +38,19 @@ class Subscription extends BaseSchema<Document> implements ISubscriptionModel {
     };
 
     await this.datasource.findOneAndUpdate({ id }, update);
+  }
+
+  async getNext(date: number) {
+    const query = { created: { $gt: new Date(date) } };
+    const projection = { email: 0 };
+
+    return this.datasource
+      .findOne(query, projection)
+      .then((object: Document|null) => {
+        if (!object) return null;
+
+        return object as unknown as object;
+      });;
   }
 }
 
