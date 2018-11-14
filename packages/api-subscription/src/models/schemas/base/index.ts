@@ -17,11 +17,11 @@ class BaseSchema<T extends Document> {
     return this.options.name;
   }
 
-  async create(body: Object): Promise<Object> {
+  async create(body: object): Promise<object> {
     return this.datasource.create(body);
   }
 
-  async findById(id: string): Promise<Object> {
+  async findById(id: string): Promise<object> {
     return this.datasource
       .findOne({ id })
       .catch((error: Error) => {
@@ -29,7 +29,7 @@ class BaseSchema<T extends Document> {
       });
   }
 
-  async deleteById(id: string): Promise<Object> {
+  async deleteById(id: string): Promise<object> {
     return this.datasource
       .deleteOne({ id })
       .catch((error: Error) => {
@@ -37,7 +37,7 @@ class BaseSchema<T extends Document> {
       });
   }
 
-  async updateById(id: string, update: Object): Promise<Object> {
+  async updateById(id: string, update: object): Promise<object> {
     return this.datasource
       .updateOne({ id }, update)
       .catch((error: Error) => {

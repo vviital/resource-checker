@@ -1,8 +1,8 @@
 export interface IHttpClient {
-  get(url: string, qs?: Object): Promise<Object>;
-  post(url: string, body: Object): Promise<Object>;
-  delete(url: string): Promise<Object>;
-  patch(url: string, body: Object): Promise<Object>;
+  get(url: string, qs?: object): Promise<object>;
+  post(url: string, body: object): Promise<object>;
+  delete(url: string): Promise<object>;
+  patch(url: string, body: object): Promise<object>;
 }
 
 export interface IHttpClientOptions {
@@ -10,6 +10,6 @@ export interface IHttpClientOptions {
     url: string,
   },
   defaultOptions?: {
-    [key: string]: Object|number|string;
+    [key: string]: object|number|string|boolean;
   },
 }

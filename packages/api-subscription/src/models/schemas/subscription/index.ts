@@ -4,23 +4,23 @@ import BaseSchema from '../base';
 import { createSubscriptionModel } from '../../datasources';
 
 interface IRevision {
-  revisionObject: Object,
+  revisionObject: object,
   type: string,
 }
 
 export interface ISubscriptionModel {
-  findByUrlAndEmail(email: string, url: string): Promise<Object|null>;
+  findByUrlAndEmail(email: string, url: string): Promise<object|null>;
   addRevision(id: string, revision: IRevision): Promise<void>;
 }
 
 class Subscription extends BaseSchema<Document> implements ISubscriptionModel {
-  async findByUrlAndEmail(email: string, url: string): Promise<Object|null> {
+  async findByUrlAndEmail(email: string, url: string): Promise<object|null> {
     return this.datasource
       .findOne({ email, url })
       .then((object: Document|null) => {
         if (!object) return null;
 
-        return object as unknown as Object;
+        return object as unknown as object;
       });
   }
 

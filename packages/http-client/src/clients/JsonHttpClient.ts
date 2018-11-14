@@ -11,7 +11,7 @@ const defaultOptions = {
 class JsonHttpClient extends BaseClient {
   constructor(options?: IHttpClientOptions) {
     const _defaultOptions = { ...defaultOptions, ...(options || {}).defaultOptions };
-    super(Object.assign({}, options, { defaultOptions: _defaultOptions }));
+    super({ ...options, defaultOptions: _defaultOptions });
   }
 }
 

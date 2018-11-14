@@ -1,5 +1,5 @@
 declare module 'hapi-pino' {
-  export function register(server: Object, options: Object): void;
+  export function register(server: object, options: object): void;
   export const name: string;
 }
 

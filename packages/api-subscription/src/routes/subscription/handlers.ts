@@ -54,7 +54,7 @@ class SubscriptionHandler {
 
   public async updateSubscription(request: Request, h: ResponseToolkit) {
     const id = request.params.id;
-    const revisionObject: Object = (request.payload as any).revisionObject;
+    const revisionObject: object = (request.payload as any).revisionObject;
     const type: string = (request.payload as any).type;
 
     const Subscription = (this.Subscription as unknown as ISubscriptionModel);
