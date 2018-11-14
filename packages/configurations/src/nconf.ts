@@ -1,8 +1,9 @@
 import * as nconf from 'nconf';
 
 interface IEnv {
-  key: string;
+  readonly key: string;
   value: string|number;
+  [key: string]: any,
 };
 
 nconf

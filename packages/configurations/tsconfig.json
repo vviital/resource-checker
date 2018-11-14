@@ -6,9 +6,5 @@
   "compilerOptions": {
     "outDir": "dest",
     "rootDir": "src"
-  },
-  "references": [
-    { "path": "../configurations" },
-    { "path": "../http-client" }
-  ]
+  }
 }

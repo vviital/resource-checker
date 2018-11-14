@@ -2,6 +2,7 @@ import { constantCase } from 'change-case';
 
 export interface IConfiguration {
   get(key: string): string;
+  [key: string]: any,
 }
 
 class Configuration implements IConfiguration {

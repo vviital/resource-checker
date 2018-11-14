@@ -1,7 +1,7 @@
 const getPort = require('get-port');
 
 import App from '../src/app';
-import Configuration, { IConfiguration } from '../src/config/config';
+import { IConfiguration, Configuration } from '@resource-checker/configurations';
 import { connect } from '../src/models';
 
 export interface ITestSuit {
@@ -9,6 +9,7 @@ export interface ITestSuit {
   dropServer(): Promise<void>;
   endpoint: string,
   port: number,
+  [key: string]: any,
 };
 
 interface IScope {
@@ -17,6 +18,7 @@ interface IScope {
     [env: string]: string,
   },
   server?: App,
+  [key: string]: any,
 }
 
 export const setupTestSuit = (): ITestSuit => {

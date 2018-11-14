@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { join } from 'path';
 
 import { fs } from '../helpers';
-import { IConfiguration } from '../config';
+import { IConfiguration } from '@resource-checker/configurations';
 import BaseSchema from './schemas/base';
 
 const constructUrl = (config: IConfiguration) => {

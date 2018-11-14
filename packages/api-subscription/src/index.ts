@@ -1,5 +1,6 @@
+import config from '@resource-checker/configurations';
+
 import App from './app';
-import config from './config';
 
 new App(config).init();
 

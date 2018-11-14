@@ -7,7 +7,7 @@ import * as Boom from 'boom';
 import * as routes from './routes';
 import { connect, registerModels } from './models';
 
-import { IConfiguration } from './config';
+import { IConfiguration } from '@resource-checker/configurations';
 
 class App {
   private server: hapi.Server;
