@@ -1,5 +1,5 @@
 {
-  "name": "@resource-checker/api-subscription",
+  "name": "@resource-checker/base",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "vviital <vviital@tut.by>",
@@ -12,17 +12,13 @@
   },
   "scripts": {
     "build": "yarn clean && tsc --build",
-    "build-incremental": "tsc --build --watch",
     "clean": "rm -rf dest",
-    "start": "node dest/index.js",
-    "start-dev": "nodemon dest/index.js",
     "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/vviital/resource-checker/issues"
   },
   "dependencies": {
-    "@resource-checker/base": "^0.0.0",
     "@resource-checker/configurations": "^0.0.0",
     "@resource-checker/http-client": "^0.0.0",
     "@resource-checker/test-utils": "^0.0.0",

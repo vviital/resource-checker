@@ -1,9 +1,16 @@
 export { IConfiguration } from './config';
 import ConfigurationClass, { IConfiguration } from './config';
 
-import nconf from './nconf';
+import nconfConfig from './nconf';
 
-const config: IConfiguration = new ConfigurationClass(nconf);
+const config: IConfiguration = new ConfigurationClass(nconfConfig);
 
-export const Configuration = ConfigurationClass;
+const Configuration = ConfigurationClass;
+const nconf: IConfiguration = nconfConfig;
+
 export default config;
+
+export {
+  Configuration,
+  nconf,
+};

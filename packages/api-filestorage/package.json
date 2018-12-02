@@ -1,15 +1,11 @@
 {
-  "name": "@resource-checker/api-subscription",
+  "name": "@resource-checker/api-filestorage",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "vviital <vviital@tut.by>",
   "homepage": "https://github.com/vviital/resource-checker#readme",
   "license": "ISC",
-  "main": "./dest/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vviital/resource-checker.git"
-  },
+  "main": "dest/index.js",
   "scripts": {
     "build": "yarn clean && tsc --build",
     "build-incremental": "tsc --build --watch",
@@ -18,15 +14,14 @@
     "start-dev": "nodemon dest/index.js",
     "test": "jest"
   },
-  "bugs": {
-    "url": "https://github.com/vviital/resource-checker/issues"
-  },
   "dependencies": {
     "@resource-checker/base": "^0.0.0",
     "@resource-checker/configurations": "^0.0.0",
     "@resource-checker/http-client": "^0.0.0",
     "@resource-checker/test-utils": "^0.0.0",
     "boom": "^7.2.2",
+    "change-case": "^3.0.2",
+    "firebase-admin": "^6.1.0",
     "got": "^9.3.2",
     "hapi": "^17.6.4",
     "hapi-pino": "^5.1.0",
@@ -35,5 +30,15 @@
     "mongoose": "^5.3.9",
     "nodemon": "^1.18.5",
     "shortid": "^2.2.13"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vviital/resource-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vviital/resource-checker/issues"
   }
 }

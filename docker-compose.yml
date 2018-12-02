@@ -9,19 +9,40 @@ services:
     tty: true
     ports:
       - 8000:8000
+    env_file: .env  
     environment:
-      - PORT=8000
-      - MONGO_PORT=27017
-      - MONGO_HOST=mongodb
       - MONGO_DATABASE=subscriptions
     depends_on:
-      - mongodb  
+      - mongodb
+  worker-resource-processor:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    command: "/bin/sh /home/resource-checker/packages/worker-resource-processor/start-dev.sh"  
+    tty: true
+    environment:
+      - API_SUBSCRIPTION_HOST=api-subscription
+    depends_on:
+      - api-subscription      
   mongodb:
     image: mongo:4.0.3
     ports:
       - 27017:27017
     volumes:
-      - mongodb:/data/db
+      - mongodb:/data/db    
+  api-filestorage:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    command: "/bin/sh /home/resource-checker/packages/api-filestorage/start-dev.sh"
+    tty: true
+    ports:
+      - 8001:8000
+    env_file: .env  
+    environment:
+      - MONGO_DATABASE=filestorage
+    depends_on:
+      - mongodb
 
 volumes:
     mongodb:

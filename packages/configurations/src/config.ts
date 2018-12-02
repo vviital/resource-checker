@@ -10,7 +10,7 @@ class Configuration implements IConfiguration {
   }
 
   get(key: string): string {
-    return this._configuration.get(constantCase(key)) || '';
+    return (this._configuration.get(constantCase(key)) || '').replace(/\\n/g, '\n');
   }
 }
 

@@ -1,11 +1,20 @@
 {
-  "name": "@resource-checker/http-client",
+  "name": "@resource-checker/test-utils",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "vviital <vviital@tut.by>",
   "homepage": "https://github.com/vviital/resource-checker#readme",
   "license": "ISC",
-  "main": "./dest/index.js",
+  "main": "dest/index.js",
+  "scripts": {
+    "build": "yarn clean && tsc --build",
+    "build-incremental": "tsc --build --watch",
+    "clean": "rm -rf dest"
+  },
+  "dependencies": {
+    "@resource-checker/configurations": "^0.0.0",
+    "get-port": "^4.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -13,15 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/vviital/resource-checker.git"
   },
-  "scripts": {
-    "build": "yarn clean && tsc --build",
-    "clean": "rm -rf dest",
-    "test": ""
-  },
   "bugs": {
     "url": "https://github.com/vviital/resource-checker/issues"
-  },
-  "dependencies": {
-    "got": "^9.3.2"
   }
 }

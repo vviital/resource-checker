@@ -8,7 +8,6 @@
     "rootDir": "src"
   },
   "references": [
-    { "path": "../base" },
     { "path": "../configurations" },
     { "path": "../http-client" },
     { "path": "../test-utils" }

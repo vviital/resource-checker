@@ -1,4 +1,4 @@
-import { Schema, Document, Model, model, Connection } from 'mongoose';
+import { Schema, Document, Model, Connection } from 'mongoose';
 import * as shortid from 'shortid';
 
 import Revision from './revision';

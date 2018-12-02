@@ -5,16 +5,20 @@
     "**/*.spec.js"
   ],
   "compilerOptions": {
-      "allowJs": false,
-      "allowSyntheticDefaultImports": true,
-      "composite": true,
-      "declaration": true,
-      "declarationMap": true,
-      "experimentalDecorators": true,
-      "module": "CommonJS",
-      "noImplicitAny": true,
-      "sourceMap": true,
-      "strictNullChecks": true,
-      "target": "es6"
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "experimentalDecorators": true,
+    "module": "CommonJS",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "ESNext",
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ]
   }
 }
