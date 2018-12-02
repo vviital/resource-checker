@@ -13,3 +13,7 @@ export interface IHttpClientOptions {
     [key: string]: object|number|string|boolean;
   },
 }
+
+export interface IHeaders {
+  [key: string]: string;
+}

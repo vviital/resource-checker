@@ -1,11 +1,7 @@
 import * as got from 'got';
 import { Readable } from 'stream';
 
-import { IHttpClient, IHttpClientOptions } from '../interface';
-
-export interface IHeaders {
-  [key: string]: string;
-}
+import { IHttpClient, IHttpClientOptions, IHeaders } from '../interface';
 
 abstract class BaseClient implements IHttpClient {
   protected defaultOptions: {
