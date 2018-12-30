@@ -23,13 +23,7 @@ class JsonHttpClient extends BaseClient {
 
     if (!isStream) return response;
 
-    let data: string = '';
-
-    for await (const chunk of response) {
-      data += chunk;
-    }
-
-    response.body = response.body || JSON.parse(data);
+    response.body = JSON.parse(response.body);
 
     return response;
   }

@@ -7,8 +7,6 @@ const importDefaultModules = (basepath: string, callback: (module: object) => vo
     .filter((filename) => {
       const fullpath = path.join(basepath, filename);
 
-      console.log(fullpath, fs.statSync(fullpath).isDirectory());
-
       return fs.statSync(fullpath).isDirectory();
     });
 

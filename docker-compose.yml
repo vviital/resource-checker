@@ -20,8 +20,7 @@ services:
       - ./packages:/home/resource-checker/packages
     command: "/bin/sh /home/resource-checker/packages/worker-resource-processor/start-dev.sh"  
     tty: true
-    environment:
-      - API_SUBSCRIPTION_HOST=api-subscription
+    env_file: .env
     depends_on:
       - api-subscription      
   mongodb:
@@ -29,7 +28,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongodb:/data/db    
+      - mongodb:/data/db
   api-filestorage:
     build: .
     volumes:
@@ -43,6 +42,5 @@ services:
       - MONGO_DATABASE=filestorage
     depends_on:
       - mongodb
-
 volumes:
     mongodb:

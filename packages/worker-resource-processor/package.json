@@ -1,0 +1,38 @@
+{
+  "name": "@resource-checker/worker-resource-processor",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "vviital <vviital@tut.by>",
+  "homepage": "https://github.com/vviital/resource-checker#readme",
+  "license": "ISC",
+  "main": "dest/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vviital/resource-checker.git"
+  },
+  "scripts": {
+    "build": "yarn clean && tsc --build",
+    "clean": "rm -rf dest",
+    "start": "node dest/index.js",
+    "start-dev": "nodemon src/index.ts",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/vviital/resource-checker/issues"
+  },
+  "dependencies": {
+    "@resource-checker/base": "^0.0.0",
+    "@resource-checker/configurations": "^0.0.0",
+    "@resource-checker/http-client": "^0.0.0",
+    "@resource-checker/test-utils": "^0.0.0",
+    "fs-extra": "^7.0.1",
+    "get-stream": "^4.1.0",
+    "nodemon": "^1.18.6",
+    "puppeteer": "^1.11.0",
+    "rimraf": "^2.6.2"
+  },
+  "devDependencies": {
+    "nock": "^10.0.5",
+    "nodemon": "^1.18.6"
+  }
+}

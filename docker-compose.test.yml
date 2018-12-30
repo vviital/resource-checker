@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  api-subscription:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    env_file: .env  
+    environment:
+      - MONGO_DATABASE=subscriptions
+    depends_on:
+      - mongodb
+  worker-resource-processor:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    env_file: .env   
+  mongodb:
+    image: mongo:4.0.3
+    volumes:
+      - mongodb-test:/data/db     
+  api-filestorage:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    ports:
+      - 8001:8000
+    env_file: .env  
+    environment:
+      - MONGO_DATABASE=filestorage
+    depends_on:
+      - mongodb
+
+volumes:
+    mongodb-test:

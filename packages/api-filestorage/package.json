@@ -8,10 +8,9 @@
   "main": "dest/index.js",
   "scripts": {
     "build": "yarn clean && tsc --build",
-    "build-incremental": "tsc --build --watch",
     "clean": "rm -rf dest",
     "start": "node dest/index.js",
-    "start-dev": "nodemon dest/index.js",
+    "start-dev": "nodemon src/index.ts",
     "test": "jest"
   },
   "dependencies": {
@@ -22,6 +21,8 @@
     "boom": "^7.2.2",
     "change-case": "^3.0.2",
     "firebase-admin": "^6.1.0",
+    "fs-extra": "^7.0.1",
+    "get-stream": "^4.1.0",
     "got": "^9.3.2",
     "hapi": "^17.6.4",
     "hapi-pino": "^5.1.0",
@@ -29,7 +30,11 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.3.9",
     "nodemon": "^1.18.5",
+    "rimraf": "^2.6.2",
     "shortid": "^2.2.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2"
   },
   "publishConfig": {
     "access": "public"

@@ -4,16 +4,18 @@ import * as joi from 'joi';
 import FileHandler from '../handlers/file';
 
 export default function createRoutes(handler: FileHandler): hapi.ServerRoute[] {
+  const prefix = '/files';
+
   const routes: hapi.ServerRoute[] = [{
-    path: '/{id}',
+    path: `${prefix}/{id}`,
     method: 'GET',
     handler: handler.getFileInfo.bind(handler),
   }, {
-    path: '/reindex',
+    path: `${prefix}/reindex`,
     method: 'POST',
     handler: handler.reindex.bind(handler),
   }, {
-    path: '/',
+    path: `${prefix}`,
     method: 'POST',
     handler: handler.uploadFile.bind(handler),
     options: {
@@ -25,7 +27,7 @@ export default function createRoutes(handler: FileHandler): hapi.ServerRoute[] {
       },
     },
   }, {
-    path: '/stream',
+    path: `${prefix}/stream`,
     method: 'POST',
     handler: handler.uploadStream.bind(handler),
     options: {

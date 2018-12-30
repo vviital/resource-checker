@@ -17,6 +17,16 @@ abstract class BaseClient implements IHttpClient {
     return got(url, opts);
   }
 
+  async _handleStream(response: any) {
+    let result = '';
+
+    for await (const chunk of response) {
+      result += chunk;
+    }
+
+    response.body = result;
+  }
+
   post(url: string, body: object|NodeJS.ReadableStream, headers: IHeaders = {}): Promise<any> {
     const opts: { [key: string]: any, json: true } = { ...this.options.defaultOptions, method: 'POST', body, json: true };
 
@@ -25,10 +35,14 @@ abstract class BaseClient implements IHttpClient {
         const uploadStream = got
           .stream
           .post(url, { ...this.options.defaultOptions, headers })
-          .on('response', resolve)
+          .on('response', async (response: any) => {
+            await this._handleStream(response);
+
+            resolve(response);
+          })
           .on('error', reject);
 
-        body.pipe(uploadStream);
+        body.pipe(uploadStream).pipe(process.stdout);
       });
     }
   

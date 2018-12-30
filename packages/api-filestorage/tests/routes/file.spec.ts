@@ -25,7 +25,7 @@ describe('Filestorage server', () => {
   it('should get subscription by id', async () => {
     const { endpoint } = testSuit;
 
-    const { body, statusCode } = await client.get(`${endpoint}/A`);
+    const { body, statusCode } = await client.get(`${endpoint}/files/A`);
 
     expect(statusCode).toEqual(200);
     expect(body).toEqual({
@@ -40,7 +40,7 @@ describe('Filestorage server', () => {
     let id: string;
 
     {
-      const { body, statusCode } = await client.post(`${endpoint}/`, {
+      const { body, statusCode } = await client.post(`${endpoint}/files`, {
         data: 'some datum',
         filename: 'filename.txt',
       });
@@ -55,7 +55,7 @@ describe('Filestorage server', () => {
     }
 
     {
-      const { body, statusCode } = await client.get(`${endpoint}/${id}`);
+      const { body, statusCode } = await client.get(`${endpoint}/files/${id}`);
 
       expect(statusCode).toEqual(200);
       expect(body).toEqual(expect.objectContaining({
@@ -74,7 +74,7 @@ describe('Filestorage server', () => {
   it('should return 400 error if payload validation fails', async () => {
     const { endpoint } = testSuit;
 
-    const { body, statusCode } = await client.post(`${endpoint}/`, {});
+    const { body, statusCode } = await client.post(`${endpoint}/files`, {});
 
     expect(statusCode).toEqual(400);
     expect(body).toEqual({
@@ -91,7 +91,7 @@ describe('Filestorage server', () => {
     const headers = { 'x-filename': 'filename.txt' };
 
     {
-      const { body, statusCode } = await client.post(`${endpoint}/stream`, stream, headers);
+      const { body, statusCode } = await client.post(`${endpoint}/files/stream`, stream, headers);
 
       expect(statusCode).toEqual(201);
       expect(body).toEqual(expect.objectContaining({
@@ -103,7 +103,7 @@ describe('Filestorage server', () => {
     }
 
     {
-      const { body, statusCode } = await client.get(`${endpoint}/${id}`);
+      const { body, statusCode } = await client.get(`${endpoint}/files/${id}`);
 
       expect(statusCode).toEqual(200);
       expect(body).toEqual(expect.objectContaining({

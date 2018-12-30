@@ -5,7 +5,7 @@ import { setupTestSuit, ITestSuit } from '../index';
 describe('CRUD operations over /subscriptions endpoint', () => {
   let scope: ITestSuit;
   let subscription: any;
-  const client = new JsonHttpClient({ defaultOptions: { throwHttpErrors: false } });
+  const client = new JsonHttpClient({ defaultOptions: { throwHttpErrors: false, timeout: 2000 } });
 
   beforeAll(async () => {
     scope = setupTestSuit();

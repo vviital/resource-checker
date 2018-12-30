@@ -23,6 +23,8 @@
     "@resource-checker/http-client": "^0.0.0",
     "@resource-checker/test-utils": "^0.0.0",
     "boom": "^7.2.2",
+    "fs-extra": "^7.0.1",
+    "get-stream": "^4.1.0",
     "got": "^9.3.2",
     "hapi": "^17.6.4",
     "hapi-pino": "^5.1.0",
@@ -30,6 +32,7 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.3.9",
     "nodemon": "^1.18.5",
+    "rimraf": "^2.6.2",
     "shortid": "^2.2.13"
   }
 }

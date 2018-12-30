@@ -1,4 +1,3 @@
-import * as PromiseHelpers from 'bluebird';
 import { isEmpty } from 'lodash';
 
 import BaseModel, { ICreationStatus, IAsyncIterator } from './base';
@@ -20,7 +19,7 @@ export default class CompositeModel extends BaseModel {
   async findById(id: string): Promise<IFileStorageModelOutput|null> {
     const promises = this.models.map(model => model.findById(id));
 
-    const results = await PromiseHelpers.all(promises);
+    const results = await Promise.all(promises);
 
     const object = results.reduceRight((prev, next: IFileStorageModelOutput) => {
       return { ...prev, ...next };
@@ -34,7 +33,7 @@ export default class CompositeModel extends BaseModel {
   async delete(id: string) {
     const promises = this.models.map(models => models.delete(id));
 
-    await PromiseHelpers.all(promises);
+    await Promise.all(promises);
   }
 
   async save(object: IFileStorageModelInput): Promise<ICreationStatus> {
@@ -42,9 +41,9 @@ export default class CompositeModel extends BaseModel {
 
     object.id = data.id;
 
-    await PromiseHelpers.all(this.models.map(model => model.save(object)));
+    await Promise.all(this.models.map(model => model.save(object)));
 
-    await PromiseHelpers.all(this.models.map(model => model.finalize(object)));
+    await Promise.all(this.models.map(model => model.finalize(object)));
 
     return data;
   }

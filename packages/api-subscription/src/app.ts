@@ -1,3 +1,5 @@
+import * as mongoose from 'mongoose';
+
 import * as routes from './routes';
 import { connect, registerModels } from './models';
 
@@ -14,6 +16,11 @@ class App extends Server {
     await super.registerRoutes();
 
     routes.registerRoutes(this.server, { models: this.models });
+  }
+
+  public async stop() {
+    await super.stop();
+    await mongoose.disconnect();
   }
 }
 

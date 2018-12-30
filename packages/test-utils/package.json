@@ -8,7 +8,6 @@
   "main": "dest/index.js",
   "scripts": {
     "build": "yarn clean && tsc --build",
-    "build-incremental": "tsc --build --watch",
     "clean": "rm -rf dest"
   },
   "dependencies": {
@@ -24,5 +23,8 @@
   },
   "bugs": {
     "url": "https://github.com/vviital/resource-checker/issues"
+  },
+  "devDependencies": {
+    "nock": "^10.0.5"
   }
 }

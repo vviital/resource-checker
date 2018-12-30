@@ -60,7 +60,6 @@ class BaseServer implements IServer {
     this.status = false;
 
     this.server = new hapi.Server({
-      host: 'localhost',
       port: this.config.get('port'),
       routes: {
         validate: {

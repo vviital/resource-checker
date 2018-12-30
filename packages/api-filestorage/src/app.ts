@@ -14,6 +14,7 @@ class App extends Server {
   }
 
   protected async registerRoutes() {
+    await super.registerRoutes();
     this.server.route(createRoutes(this.config, this.options.createModel));
   }
 }

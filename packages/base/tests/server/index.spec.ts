@@ -18,7 +18,6 @@ describe('BaseServer', () => {
   })
 
   it('should response for a health check endpoint', async () => {
-    console.log('`${testSuit.endpoint}/health`', `${testSuit.endpoint}/health`);
     const { body } = await client.get(`${testSuit.endpoint}/health`);
 
     expect(body).toEqual({ status: 'ok' });

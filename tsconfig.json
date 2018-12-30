@@ -15,6 +15,7 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "strictNullChecks": true,
+    "downlevelIteration": true,
     "target": "ESNext",
     "typeRoots": [
       "./typings",
