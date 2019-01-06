@@ -13,7 +13,7 @@ class ScreenshotStrategy extends BaseStrategy {
     super(config, opts);
 
     this.fileStorage = new externalClients.FileStorage(config);
-    this.client = new Chrome();
+    this.client = new Chrome({ maxPages: 5, externalFSDriver: this.fileStorage });
   }
 
   private async initialize() {
@@ -33,17 +33,13 @@ class ScreenshotStrategy extends BaseStrategy {
 
     await page.goto(url, { timeout: 60000 });
 
-    const descriptor = await this.client.savePage(page);
-
-    const file = await this.fileStorage.save(descriptor.filename, descriptor.createStream());
-
-    await descriptor.delete();
+    const fileIdOrError = await this.client.savePage(page);
 
     await page.close();
 
-    if (file instanceof ErrorObject) return file;
+    if (fileIdOrError instanceof ErrorObject) return fileIdOrError;
 
-    return this.formatResponse({ fileId: file.id });
+    return this.formatResponse({ fileId: fileIdOrError });
   }
 }
 

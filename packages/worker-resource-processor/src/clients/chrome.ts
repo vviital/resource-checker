@@ -3,7 +3,7 @@ import { promisify } from 'util';
 import { createReadStream, unlink, mkdir, exists } from 'fs';
 import { join } from 'path';
 import { generate } from 'shortid';
-import { ErrorObject } from '../../../base/dest';
+import { ErrorObject } from '@resource-checker/base';
 
 const fs = {
   exists: promisify(exists),
@@ -11,8 +11,17 @@ const fs = {
   unlink: promisify(unlink),
 }
 
+type RemoteFileIdentifier = {
+  id: string;
+};
+
+export interface IExternalFSDriver {
+  save(filename: string, stream: NodeJS.ReadableStream): Promise<RemoteFileIdentifier|ErrorObject>;
+}
+
 export interface IChromeConfig {
   maxPages: number,
+  externalFSDriver: IExternalFSDriver,
   directory?: string,
 }
 
@@ -23,7 +32,7 @@ export default class Chrome {
   private pages: number;
   private directory: string;
 
-  constructor(private config: IChromeConfig = { maxPages: 5 }) {
+  constructor(private config: IChromeConfig) {
     if (Chrome.instance) return Chrome.instance;
 
     this._initialized = false;
@@ -104,9 +113,8 @@ export default class Chrome {
     }
   }
 
-  public async savePage(page: puppeteer.Page) {
+  protected async saveToLocalFS(page: puppeteer.Page) {
     const filename = `screenshot_${generate()}.jpeg`;
-
     let filepath = `./${this.directory}/${filename}`;
 
     await page.screenshot({
@@ -126,4 +134,19 @@ export default class Chrome {
     };
   }
 
+  public async savePage(page: puppeteer.Page) {
+    try {
+      const descriptor = await this.saveToLocalFS(page);
+
+      const file = await this.config.externalFSDriver.save(descriptor.filename, descriptor.createStream());
+  
+      await descriptor.delete();
+  
+      if (file instanceof ErrorObject) return file;
+  
+      return file.id;
+    } catch (error) {
+      return new ErrorObject(error.message, { source: Chrome.name, stack: error.stack });
+    }
+  }
 }

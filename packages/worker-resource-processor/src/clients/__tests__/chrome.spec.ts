@@ -3,12 +3,28 @@ import { join } from 'path';
 import * as rimraf from 'rimraf';
 import * as puppeteer from 'puppeteer';
 import { POM } from '@resource-checker/test-utils';
+import { ErrorObject } from '@resource-checker/base';
 import * as getStream from 'get-stream';
 
 import Chrome from '../chrome';
 
+const fsDriver: {
+  files: string[],
+  save(filename: string, stream: NodeJS.ReadableStream): Promise<{ id: string }|ErrorObject>,
+  release(): void,
+} = {
+  files: [],
+  async save(filename, stream) {
+    this.files.push(await getStream(stream));
+    return { id: this.files.length.toString() };
+  },
+  release() {
+    this.files = [];
+  }
+};
+
 describe('Chrome', () => {
-  const chrome = new Chrome({ maxPages: 2, directory: 'test_tmp' });
+  const chrome = new Chrome({ maxPages: 2, directory: 'test_tmp', externalFSDriver: fsDriver });
   const directory = join(process.cwd(), 'test_tmp');
   const url = 'https://example.com';
   const pom = POM.content(url);
@@ -67,12 +83,11 @@ describe('Chrome', () => {
       const page = await pom.mockPuppeter(await chrome.core.newPage());
       await page.goto(url);
 
-      const descriptor = await chrome.savePage(page);
-
-      const actualScreenshot = await getStream(descriptor.createStream());
+      const fileId = await chrome.savePage(page);
       const expectedStreenshot = await getStream(pom.info.screenshot());
 
-      expect(actualScreenshot).toEqual(expectedStreenshot);
+      expect(fileId).toEqual('1');
+      expect(fsDriver.files[0]).toEqual(expectedStreenshot);
     });
   });
 });
