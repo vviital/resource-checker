@@ -23,6 +23,10 @@ export interface IStrategy {
   handle(url: string): Promise<IProcessorResult | ErrorObject>;
 }
 
+export interface IStrategyClass {
+  new (config: IConfiguration, options: IStrategyOptions): IStrategy,
+}
+
 abstract class BaseStrategy implements IStrategy {
   constructor(protected config: IConfiguration, protected options: IStrategyOptions) {
 

@@ -6,6 +6,7 @@ export {
   IRevision,
   IStrategy,
   IStrategyBaseOptions,
+  IStrategyClass,
   IStrategyOptions,
 } from './base';
 
