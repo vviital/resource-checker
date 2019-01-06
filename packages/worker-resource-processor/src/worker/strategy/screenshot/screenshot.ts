@@ -1,18 +1,18 @@
 import { IConfiguration } from '@resource-checker/configurations';
-import { Chrome, FileStorageClient, ICreationStatus } from '../../../clients';
+import { Chrome } from '../../../clients';
+import { externalClients, ErrorObject } from '@resource-checker/base';
 
 import BaseStrategy, { IProcessorResult, IStrategyBaseOptions } from '../base';
-import { ErrorObject } from '../../../../../base/dest';
 
 class ScreenshotStrategy extends BaseStrategy {
   private client: Chrome;
-  private fileStorage: FileStorageClient;
+  private fileStorage: externalClients.FileStorage;
 
   constructor(config: IConfiguration, options: IStrategyBaseOptions) {
     const opts = { ...options, type: ScreenshotStrategy.name };
     super(config, opts);
 
-    this.fileStorage = new FileStorageClient(config);
+    this.fileStorage = new externalClients.FileStorage(config);
     this.client = new Chrome();
   }
 
@@ -43,7 +43,7 @@ class ScreenshotStrategy extends BaseStrategy {
 
     if (file instanceof ErrorObject) return file;
 
-    return this.formatResponse({ fileId: (file as ICreationStatus).id });
+    return this.formatResponse({ fileId: file.id });
   }
 }
 

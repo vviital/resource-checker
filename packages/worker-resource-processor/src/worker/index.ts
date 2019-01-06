@@ -1,45 +1,37 @@
+import config, { IConfiguration } from '@resource-checker/configurations';
+
 import RedirectStrategy from './strategy/redirect/redirect';
 import ContentHashStrategy from './strategy/contentHash/contentHash';
 import ScreenShotStrategy from './strategy/screenshot/screenshot';
 import { IStrategy } from './strategy/base/base';
-import config from '@resource-checker/configurations';
+import { externalClients } from '@resource-checker/base';
 
 import CronWorker, { ICronConfig } from '../cron';
 
-const subscriptionsIterator = () => {
-
-};
-
-const SubscriptionCollection = {
-  [Symbol.asyncIterator]: () => subscriptionsIterator,
-}
-
 class ResourceChecker extends CronWorker {
-  private schema: {
-    strategy: IStrategy,
-  }[];
+  subscriptions: externalClients.Subscriptions;
 
-  constructor(config: ICronConfig) {
-    super(config);
-  }
-
-  private getNextSubscription() {
-
+  constructor(config: IConfiguration, options: ICronConfig) {
+    super(config, options);
+    this.subscriptions = new externalClients.Subscriptions(this.config);
   }
 
   public async operation(): Promise<object|void> {
-    const strategy1 = new RedirectStrategy(config, { revisions: [] });
-    const strategy2 = new ContentHashStrategy(config, { revisions: [] });
-    const strategy3 = new ScreenShotStrategy(config, { revisions: [] });
+    for await (const subscription of this.subscriptions) {
+      const { url, revisions } = subscription;
 
-    // const url = 'https://ww1.read7deadlysins.com/chapter/nanatsu-no-taizai-spoilers-raw-chapter-292/';
-    const url = 'https://ww1.read7deadlysins.com/chapter/nanatsu-no-taizai-chapter-292/';
+      const strategy1: IStrategy = new RedirectStrategy(config, { revisions });
+      const strategy2: IStrategy = new ContentHashStrategy(config, { revisions });
+      const strategy3: IStrategy = new ScreenShotStrategy(config, { revisions });
 
-    const res = await Promise.all([
-      strategy1.handle(url),
-      strategy2.handle(url),
-      strategy3.handle(url),
-    ]);
+      const res = await Promise.all([
+        strategy1.handle(url),
+        strategy2.handle(url),
+        strategy3.handle(url),
+      ]);
+
+      console.log('res', res);
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+import configurations from '@resource-checker/configurations';
+
 import Worker from './worker';
 
-new Worker({ repeat: 100000000 }).execute();
+new Worker(configurations, { repeat: 10000 }).execute();

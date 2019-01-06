@@ -1,7 +1,12 @@
 import * as got from 'got';
 import { Readable } from 'stream';
 
-import { IHttpClient, IHttpClientOptions, IHeaders } from '../interface';
+import {
+  IHeaders,
+  IHttpClient,
+  IHttpClientOptions,
+  IHttpClientResponse,
+} from '../interface';
 
 abstract class BaseClient implements IHttpClient {
   protected defaultOptions: {
@@ -12,12 +17,12 @@ abstract class BaseClient implements IHttpClient {
     this.defaultOptions = options.defaultOptions || {};
   }
 
-  get(url: string): Promise<any> {
+  get(url: string): Promise<IHttpClientResponse> {
     const opts = { ...this.options.defaultOptions, method: 'GET' };
-    return got(url, opts);
+    return got(url, opts) as Promise<IHttpClientResponse>;
   }
 
-  async _handleStream(response: any) {
+  async _handleStream(response: IHttpClientResponse & any) {
     let result = '';
 
     for await (const chunk of response) {
@@ -27,7 +32,7 @@ abstract class BaseClient implements IHttpClient {
     response.body = result;
   }
 
-  post(url: string, body: object|NodeJS.ReadableStream, headers: IHeaders = {}): Promise<any> {
+  post(url: string, body: object|NodeJS.ReadableStream, headers: IHeaders = {}): Promise<IHttpClientResponse> {
     const opts: { [key: string]: any, json: true } = { ...this.options.defaultOptions, method: 'POST', body, json: true };
 
     if (body instanceof Readable) {
@@ -42,21 +47,21 @@ abstract class BaseClient implements IHttpClient {
           })
           .on('error', reject);
 
-        body.pipe(uploadStream).pipe(process.stdout);
+        body.pipe(uploadStream);
       });
     }
   
-    return got(url, opts);
+    return got(url, opts) as Promise<IHttpClientResponse>;
   }
 
-  patch(url: string, body: object): Promise<any> {
+  patch(url: string, body: object): Promise<IHttpClientResponse> {
     const opts: { json: true, [key: string]: any } = { ...this.options.defaultOptions, method: 'PATCH', body, json: true };
-    return got(url, opts);
+    return got(url, opts) as Promise<IHttpClientResponse>;
   }
 
-  delete(url: string): Promise<any> {
+  delete(url: string): Promise<IHttpClientResponse> {
     const opts = { ...this.options.defaultOptions, method: 'DELETE' };
-    return got(url, opts);
+    return got(url, opts) as Promise<IHttpClientResponse>;
   }
 }
 

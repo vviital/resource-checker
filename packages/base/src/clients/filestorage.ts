@@ -1,6 +1,6 @@
 import { JsonHttpClient } from '@resource-checker/http-client';
 import { IConfiguration } from '@resource-checker/configurations';
-import { ErrorObject } from '@resource-checker/base';
+import ErrorObject from '../errors';
 
 export interface IFileStorageResponse {
   filename: string;
@@ -15,7 +15,7 @@ export interface ICreationStatus {
 
 const SECOND = 60 * 1000;
 
-class FileStorageClient {
+class FileStorage {
   private client: JsonHttpClient;
   private endpoint: string;
 
@@ -25,7 +25,7 @@ class FileStorageClient {
   }
 
   private getErrorObject(error: Error) {
-    return new ErrorObject(error.message, { source: FileStorageClient.name, stack: error.stack });
+    return new ErrorObject(error.message, { source: FileStorage.name, stack: error.stack });
   }
 
   async get(id: string): Promise<IFileStorageResponse | ErrorObject> {
@@ -43,7 +43,7 @@ class FileStorageClient {
   }
 
   async save(filename: string, stream: NodeJS.ReadableStream): Promise<ICreationStatus|ErrorObject> {
-    const url = `http://${this.endpoint}/files/stream`;
+    const url = `${this.endpoint}/files/stream`;
 
     try {
       const response = await this.client.post(url, stream, { 'x-filename': filename });
@@ -57,4 +57,4 @@ class FileStorageClient {
   }
 }
 
-export default FileStorageClient;
+export default FileStorage;

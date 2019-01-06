@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash';
 import BaseStrategy, { IStrategyBaseOptions } from '../base/base';
 import { IConfiguration } from '@resource-checker/configurations';
 
-
 class RedirectStrategy extends BaseStrategy {
   private client: PlainHttpClient;
 
@@ -16,7 +15,7 @@ class RedirectStrategy extends BaseStrategy {
     this.client = new PlainHttpClient();
   }
 
-  private async createRevision(url: string): Promise<object> {
+  private async createRevision(url: string): Promise<object | ErrorObject> {
     try {
       const { redirectUrls, statusCode } = await this.client.get(url);
 

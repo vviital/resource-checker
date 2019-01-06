@@ -1,3 +1,4 @@
+import { IConfiguration } from "@resource-checker/configurations";
 export interface ICronConfig {
   repeat: number,
   [key: string]: any,
@@ -11,7 +12,7 @@ export interface ICronInterface {
 const logger = console;
 
 abstract class CronJob implements ICronInterface {
-  constructor(protected config: ICronConfig) {
+  constructor(protected config: IConfiguration, protected options: ICronConfig) {
   }
 
   // Placeholder for operation which should be ovveride in child class
@@ -20,7 +21,7 @@ abstract class CronJob implements ICronInterface {
   }
 
   private scheduleNextCall(): void {
-    const { repeat } = this.config;
+    const { repeat } = this.options;
 
     setTimeout(this.execute.bind(this), repeat);;
   }

@@ -9,7 +9,7 @@ import { stringToStream } from '../../../utils';
 
 interface IContentHashRevision {
   hash: string,
-  statusCode: string,
+  statusCode: number,
 };
 
 const isBuffer = (x: string | Buffer): x is Buffer => {

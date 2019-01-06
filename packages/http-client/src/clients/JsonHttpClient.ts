@@ -2,7 +2,7 @@ import { Readable } from 'stream';
 
 import BaseClient from './base';
 
-import { IHttpClientOptions, IHeaders } from '../interface';
+import { IHttpClientOptions, IHeaders, IHttpClientResponse } from '../interface';
 
 const defaultOptions = {
   json: true,
@@ -16,7 +16,7 @@ class JsonHttpClient extends BaseClient {
     super({ ...options, defaultOptions: _defaultOptions });
   }
 
-  async post(url: string, body: object|NodeJS.ReadableStream, headers: IHeaders = {}): Promise<any> {
+  async post(url: string, body: object|NodeJS.ReadableStream, headers: IHeaders = {}): Promise<IHttpClientResponse> {
     const isStream = body instanceof Readable;
 
     const response = await super.post(url, body, headers);
