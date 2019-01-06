@@ -6,6 +6,7 @@ export default class Chrome {
 
   constructor(private config: IChromeConfig) {
     this.counter = 0;
+    this._initialized = false;
   }
 
   get initialized() {
