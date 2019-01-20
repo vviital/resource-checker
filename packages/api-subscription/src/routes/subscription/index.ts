@@ -2,6 +2,7 @@ import * as joi from 'joi';
 
 import SubscriptionHandler from './handlers';
 import { IRouteConfig, IHandlerOptions } from '../interfaces';
+import { IConfiguration } from '@resource-checker/configurations';
 
 const schemas = {
   id: {
@@ -17,8 +18,8 @@ const schemas = {
   },
 };
 
-const createRoutes = (options: IHandlerOptions): IRouteConfig[] => {
-  const handler = new SubscriptionHandler(options);
+const createRoutes = (config: IConfiguration, options: IHandlerOptions): IRouteConfig[] => {
+  const handler = new SubscriptionHandler(config, options);
   const basepath = '/subscriptions';
 
   const mapping: IRouteConfig[] = [ {
@@ -57,7 +58,11 @@ const createRoutes = (options: IHandlerOptions): IRouteConfig[] => {
       validate: {
         params: schemas.id,
       },
-    },
+    }
+  }, {
+    method: 'GET',
+    path: `${basepath}/next/{timestamp}`,
+    handler: handler.getNext.bind(handler),
   }];
 
   return mapping;

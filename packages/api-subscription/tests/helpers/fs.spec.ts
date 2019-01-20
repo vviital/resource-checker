@@ -6,7 +6,7 @@ describe('importDefaultModules', () => {
   const path = join(__dirname, 'fixtures', 'dir1');
 
   it('should process all modules', () => {
-    const modules: Object[] = [];
+    const modules: object[] = [];
     fs.importDefaultModules(path, module => modules.push(module));
 
     expect(modules).toEqual([{
@@ -17,7 +17,7 @@ describe('importDefaultModules', () => {
   });
 
   it('should process all modules except skipped', () => {
-    const modules: Object[] = [];
+    const modules: object[] = [];
     fs.importDefaultModules(path, module => modules.push(module), ['dir1']);
 
     expect(modules).toEqual([{

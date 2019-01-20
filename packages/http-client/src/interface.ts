@@ -1,8 +1,14 @@
+export interface IHttpClientResponse {
+  body: any,
+  redirectUrls: string[],
+  statusCode: number,
+}
+
 export interface IHttpClient {
-  get(url: string, qs?: Object): Promise<Object>;
-  post(url: string, body: Object): Promise<Object>;
-  delete(url: string): Promise<Object>;
-  patch(url: string, body: Object): Promise<Object>;
+  get(url: string, qs?: object): Promise<IHttpClientResponse>;
+  post(url: string, body: object): Promise<IHttpClientResponse>;
+  delete(url: string): Promise<IHttpClientResponse>;
+  patch(url: string, body: object): Promise<IHttpClientResponse>;
 }
 
 export interface IHttpClientOptions {
@@ -10,6 +16,10 @@ export interface IHttpClientOptions {
     url: string,
   },
   defaultOptions?: {
-    [key: string]: Object|number|string;
+    [key: string]: object|number|string|boolean;
   },
+}
+
+export interface IHeaders {
+  [key: string]: string;
 }

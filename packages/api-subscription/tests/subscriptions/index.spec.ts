@@ -5,7 +5,7 @@ import { setupTestSuit, ITestSuit } from '../index';
 describe('CRUD operations over /subscriptions endpoint', () => {
   let scope: ITestSuit;
   let subscription: any;
-  const client = new JsonHttpClient({ defaultOptions: { throwHttpErrors: false } });
+  const client = new JsonHttpClient({ defaultOptions: { throwHttpErrors: false, timeout: 2000 } });
 
   beforeAll(async () => {
     scope = setupTestSuit();
@@ -86,6 +86,24 @@ describe('CRUD operations over /subscriptions endpoint', () => {
         type: 'type',
       })],
     }));
+  });
+
+  it('should return next created subscription', async () => {
+    const date = new Date(subscription.created).getTime() - 1;
+
+    const response1 = await client.get(`${scope.endpoint}/subscriptions/next/${date}`);
+
+    const response2 = await client.get(`${scope.endpoint}/subscriptions/next/${date + 1}`);
+
+    expect(response1.statusCode).toEqual(200);
+    expect(response1.body).toEqual(expect.objectContaining({
+      url: expect.any(String),
+      revisions: expect.any(Array),
+    }));
+    expect(response1).not.toEqual(expect.objectContaining({
+      email: expect.anything(),
+    }));
+    expect(response2.statusCode).toEqual(404);
   });
 
   it('should delete created subscription', async () => {

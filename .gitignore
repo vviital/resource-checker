@@ -77,3 +77,9 @@ typings/
 
 # TypeScript build directory
 packages/*/dest
+
+
+# tmp folders
+packages/*/tmp
+
+.DS_Store

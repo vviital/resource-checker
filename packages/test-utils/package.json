@@ -1,0 +1,30 @@
+{
+  "name": "@resource-checker/test-utils",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "vviital <vviital@tut.by>",
+  "homepage": "https://github.com/vviital/resource-checker#readme",
+  "license": "ISC",
+  "main": "dest/index.js",
+  "scripts": {
+    "build": "yarn clean && tsc --build",
+    "clean": "rm -rf dest"
+  },
+  "dependencies": {
+    "@resource-checker/configurations": "^0.0.0",
+    "get-port": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vviital/resource-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vviital/resource-checker/issues"
+  },
+  "devDependencies": {
+    "nock": "^10.0.5"
+  }
+}

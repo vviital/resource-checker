@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  api-subscription:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    env_file: .env  
+    environment:
+      - MONGO_DATABASE=subscriptions
+    depends_on:
+      - mongodb
+  base:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    env_file: .env
+    depends_on:
+      - rabbitmq  
+  worker-resource-processor:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    env_file: .env   
+  api-filestorage:
+    build: .
+    volumes:
+      - ./packages:/home/resource-checker/packages
+    tty: true
+    ports:
+      - 8001:8000
+    env_file: .env  
+    environment:
+      - MONGO_DATABASE=filestorage
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:4.0.3
+  rabbitmq:
+    image: rabbitmq:3.7.8-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 100M

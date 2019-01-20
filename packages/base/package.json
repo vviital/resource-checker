@@ -1,0 +1,39 @@
+{
+  "name": "@resource-checker/base",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "vviital <vviital@tut.by>",
+  "homepage": "https://github.com/vviital/resource-checker#readme",
+  "license": "ISC",
+  "main": "./dest/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vviital/resource-checker.git"
+  },
+  "scripts": {
+    "build": "yarn clean && tsc --build",
+    "clean": "rm -rf dest",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/vviital/resource-checker/issues"
+  },
+  "dependencies": {
+    "@resource-checker/configurations": "^0.0.0",
+    "@resource-checker/http-client": "^0.0.0",
+    "@resource-checker/test-utils": "^0.0.0",
+    "amqplib": "^0.5.3",
+    "boom": "^7.2.2",
+    "fs-extra": "^7.0.1",
+    "get-stream": "^4.1.0",
+    "got": "^9.3.2",
+    "hapi": "^17.6.4",
+    "hapi-pino": "^5.1.0",
+    "joi": "^14.0.4",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.3.9",
+    "nodemon": "^1.18.5",
+    "rimraf": "^2.6.2",
+    "shortid": "^2.2.13"
+  }
+}
