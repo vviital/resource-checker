@@ -14,6 +14,7 @@ services:
       - MONGO_DATABASE=subscriptions
     depends_on:
       - mongodb
+      - rabbitmq
   worker-resource-processor:
     build: .
     volumes:
@@ -21,14 +22,10 @@ services:
     command: "/bin/sh /home/resource-checker/packages/worker-resource-processor/start-dev.sh"  
     tty: true
     env_file: .env
+    restart: always
     depends_on:
-      - api-subscription      
-  mongodb:
-    image: mongo:4.0.3
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodb:/data/db
+      - api-subscription
+      - rabbitmq
   api-filestorage:
     build: .
     volumes:
@@ -42,5 +39,29 @@ services:
       - MONGO_DATABASE=filestorage
     depends_on:
       - mongodb
+  # Storages
+  mongodb:
+    image: mongo:4.0.3
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+  rabbitmq:
+    image: rabbitmq:3.7.8-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 100M
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
 volumes:
     mongodb:
+    rabbitmq:

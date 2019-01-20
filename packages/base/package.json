@@ -22,6 +22,7 @@
     "@resource-checker/configurations": "^0.0.0",
     "@resource-checker/http-client": "^0.0.0",
     "@resource-checker/test-utils": "^0.0.0",
+    "amqplib": "^0.5.3",
     "boom": "^7.2.2",
     "fs-extra": "^7.0.1",
     "get-stream": "^4.1.0",

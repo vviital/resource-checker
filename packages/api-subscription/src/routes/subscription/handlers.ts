@@ -1,6 +1,8 @@
 import { Request, ResponseToolkit } from 'hapi';
 import { Document } from 'mongoose';
 import * as _ from 'lodash';
+import { queues } from '@resource-checker/base';
+import { IConfiguration } from '@resource-checker/configurations';
 
 import { IHandlerOptions } from '../interfaces';
 
@@ -11,14 +13,20 @@ import { DocumentNotFoundError } from '../../errors';
 class SubscriptionHandler {
   private models: { [modelName: string]: BaseSchema<Document> };
   private Subscription: BaseSchema<Document>;
+  private publisher: queues.Direct;
 
-  constructor(private options: IHandlerOptions) {
+  constructor(private config: IConfiguration,  private options: IHandlerOptions) {
     this.models = this.options.models;
     this.Subscription = this.options.models.Subscription;
 
     if (!_.isObject(this.Subscription)) {
       throw new Error('Subscription should be a valid object');
     }
+
+    this.publisher = new queues.Direct(config, {
+      exchange: config.get('resourceProcessingExchange'),
+      prefetchCount: 1,
+    });
   }
 
   public async registerSubscription(request: Request, h: ResponseToolkit) {
@@ -32,6 +40,8 @@ class SubscriptionHandler {
     if (subscription) return h.response(subscription).code(201);
 
     subscription = await this.Subscription.create({ email, url });
+    
+    await this.publisher.publish(subscription, this.config.get('resourceProcessingRoute'));
 
     return h.response(subscription).code(201);
   }

@@ -15,7 +15,7 @@ class App extends Server {
   protected async registerRoutes() {
     await super.registerRoutes();
 
-    routes.registerRoutes(this.server, { models: this.models });
+    routes.registerRoutes(this.server, this.config, { models: this.models });
   }
 
   public async stop() {
