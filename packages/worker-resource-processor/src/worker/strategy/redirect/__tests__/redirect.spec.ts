@@ -21,18 +21,25 @@ describe('Redirect strategy', () => {
       const response = await strategy.handle(url);
   
       expect(response).toEqual(expect.objectContaining({
-        id: expect.any(String),
-        type: 'RedirectStrategy',
-        revisionObject: expect.objectContaining({
-          hasRedirect: true,
-          redirectUrls: ['https://redirect.com/'],
-          statusCode: 200,
+        revision: expect.objectContaining({
+          created: expect.any(Date),
+          id: expect.any(String),
+          type: 'RedirectStrategy',
+          revisionObject: expect.objectContaining({
+            hasRedirect: true,
+            redirectUrls: ['https://redirect.com/'],
+            statusCode: 200,
+          }),
         }),
+        score: {
+          score: 1,
+          weight: 1,
+        },
       }));
     });
   });
 
-  describe('if redirect didn\t take place', () => {
+  describe('if redirect have not happend', () => {
     const url = 'https://example.com';
     const page = POM.content(url);
 
@@ -44,17 +51,24 @@ describe('Redirect strategy', () => {
       page.cleanUp();
     });
 
-    it('should process page and return error object', async () => {
+    it('should process page and return processed result', async () => {
       const response = await strategy.handle(url);
   
       expect(response).toEqual(expect.objectContaining({
-        id: expect.any(String),
-        type: 'RedirectStrategy',
-        revisionObject: expect.objectContaining({
-          hasRedirect: false,
-          redirectUrls: [],
-          statusCode: 200,
+        revision: expect.objectContaining({
+          created: expect.any(Date),
+          id: expect.any(String),
+          type: 'RedirectStrategy',
+          revisionObject: expect.objectContaining({
+            hasRedirect: false,
+            redirectUrls: [],
+            statusCode: 200,
+          }),
         }),
+        score: {
+          score: 1,
+          weight: 1,
+        },
       }));
     });
   });

@@ -3,21 +3,27 @@ import BaseStrategy from '../index';
 describe('BaseStrategy', () => {
   class TestStategy extends BaseStrategy {
     public formatResponse(data: object) {
-      return super.formatResponse(data);
+      return super.formatResponse(data, { score: 1, weight: 1 });
     }
 
     public get previousRevisions() {
       return super.previousRevisions;
+    }
+
+    protected async createRevision(url: string) {
+      return this.createRevisionObject({ url });
     }
   };
 
   const defaultOptions = {
     type: 'Test',
     revisions: [{
+      id: '1',
       created: new Date(),
       revisionObject: {},
       type: 'Type',
     }, {
+      id: '2',
       created: new Date(),
       revisionObject: {},
       type: 'Test',
@@ -31,9 +37,16 @@ describe('BaseStrategy', () => {
       const response = stategy.formatResponse({ field: 'field' });
 
       expect(response).toEqual(expect.objectContaining({
-        id: expect.any(String),
-        revisionObject: { field: 'field' },
-        type: 'Test',
+        revision: expect.objectContaining({
+          created: expect.any(Date),
+          id: expect.any(String),
+          revisionObject: { field: 'field' },
+          type: 'Test',
+        }),
+        score: {
+          score: 1,
+          weight: 1,
+        },
       }));
     });
   });
@@ -54,12 +67,18 @@ describe('BaseStrategy', () => {
 
       const result = await stategy.handle('url');
 
-      expect(result).toEqual({
-        type: 'Placeholder',
-        revisionObject: {
-          url: 'url',
+      expect(result).toEqual(expect.objectContaining({
+        revision: expect.objectContaining({
+          created: expect.any(Date),
+          id: expect.any(String),
+          revisionObject: { url: 'url' },
+          type: 'Test',
+        }),
+        score: {
+          score: 0,
+          weight: 1,
         },
-      });
+      }));
     });
   });
 });

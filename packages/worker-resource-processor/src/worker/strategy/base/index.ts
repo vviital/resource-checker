@@ -2,16 +2,15 @@ import BaseStrategy from './base';
 import Comparator from './comparator';
 
 export {
-  IProcessorResult,
-  IRevision,
+  ProcessorResult,
   IStrategy,
-  IStrategyBaseOptions,
+  StrategyBaseOptions,
   IStrategyClass,
-  IStrategyOptions,
+  StrategyOptions,
 } from './base';
 
 export {
-  IComparationResult,
+  ComparationResult,
   MAX_SCORE as MAX_COMPARATOR_SCORE,
   MIN_SCORE as MIN_COMPARATOR_SCORE,
 } from './comparator';

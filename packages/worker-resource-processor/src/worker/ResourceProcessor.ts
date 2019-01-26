@@ -2,7 +2,7 @@ import { IConfiguration } from '@resource-checker/configurations';
 import { queues } from '@resource-checker/base';
 
 import StrategyManager from './strategy';
-import { ISubscriptionObject } from '@resource-checker/base/dest/clients/subscriptions';
+import { SubscriptionObject } from '@resource-checker/base/dest/clients/subscriptions';
 
 class ResourceProcessor {
   private exchange: queues.Exchange;
@@ -15,7 +15,7 @@ class ResourceProcessor {
     this.strategyManager = new StrategyManager(this.config);
   }
 
-  async process(subscription: ISubscriptionObject) {
+  async process(subscription: SubscriptionObject) {
     const { url, revisions } = subscription;
 
     console.log(`processing ${url}`);
