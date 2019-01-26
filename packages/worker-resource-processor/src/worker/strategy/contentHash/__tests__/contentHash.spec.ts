@@ -21,12 +21,19 @@ describe('Content Hash Strategy', () => {
       const response = await strategy.handle(url);
   
       expect(response).toEqual(expect.objectContaining({
-        id: expect.any(String),
-        type: 'ContentHashStrategy',
-        revisionObject: expect.objectContaining({
-          hash: page.info.hash,
-          statusCode: 200,
+        revision: expect.objectContaining({
+          created: expect.any(Date),
+          id: expect.any(String),
+          type: 'ContentHashStrategy',
+          revisionObject: expect.objectContaining({
+            hash: page.info.hash,
+            statusCode: 200,
+          }),
         }),
+        score: {
+          score: 1,
+          weight: 1,
+        },
       }));
     });
   });

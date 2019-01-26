@@ -3,11 +3,11 @@ import { IConfiguration } from '@resource-checker/configurations';
 import RedirectStrategy from './redirect/redirect';
 import ContentHashStrategy from './contentHash/contentHash';
 import ScreenShotStrategy from './screenshot/screenshot';
-import { IStrategyClass, IStrategyOptions, IStrategy, IStrategyBaseOptions } from './base';
+import { IStrategyClass, StrategyOptions, IStrategy, StrategyBaseOptions } from './base';
 
 export interface IStrategyManager {
-  getStrategies(types: string[], options: IStrategyOptions): IStrategy[];
-  getStrategies(options: IStrategyOptions): IStrategy[];
+  getStrategies(types: string[], options: StrategyOptions): IStrategy[];
+  getStrategies(options: StrategyOptions): IStrategy[];
 }
 
 export default class StrategyManager implements IStrategyManager {
@@ -17,12 +17,12 @@ export default class StrategyManager implements IStrategyManager {
     this.strategies = [RedirectStrategy, ContentHashStrategy, ScreenShotStrategy];
   }
 
-  protected applyStrategies(strategies: IStrategyClass[], options: IStrategyOptions) {
+  protected applyStrategies(strategies: IStrategyClass[], options: StrategyOptions) {
     return strategies.map(Strategy => new Strategy(this.config, options));
   }
 
-  getStrategies(types: string[]|IStrategyOptions, options?: IStrategyBaseOptions) {
-    const opts: IStrategyOptions = {
+  getStrategies(types: string[]|StrategyOptions, options?: StrategyBaseOptions) {
+    const opts: StrategyOptions = {
       type: 'FallbackType',
       ...(options || { revisions: [] }),
     }

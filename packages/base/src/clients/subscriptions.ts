@@ -1,18 +1,19 @@
 import { IConfiguration } from '@resource-checker/configurations';
 import { JsonHttpClient } from '@resource-checker/http-client';
 
-export interface IRevision {
+export type Revision = {
   created: Date,
-  revisionObject: object;
-  type: string;
-}
+  id: string,
+  revisionObject: object,
+  type: string,
+};
 
-export interface ISubscriptionObject {
+export type SubscriptionObject = {
   created: Date,
   handlerTypes: string[],
   id: string,
   modified: Date,
-  revisions: IRevision[],
+  revisions: Revision[],
   url: string,
 }
 
@@ -27,9 +28,9 @@ export default class Subscriptions {
 
   public async *[Symbol.asyncIterator]() {
     let statusCode: number;
-    let previosDate = new Date(0);
+    let previousDate = new Date(0);
     do {
-      const response = await this.client.get(`${this.basePath}/next/${previosDate.getTime()}`);
+      const response = await this.client.get(`${this.basePath}/next/${previousDate.getTime()}`);
 
       statusCode = response.statusCode;
 
@@ -37,10 +38,10 @@ export default class Subscriptions {
         throw new Error(`Subscription resource is not available with status ${statusCode}`);
       }
       
-      previosDate = new Date(response.body.created);
+      previousDate = new Date(response.body.created);
 
       if (statusCode === 200) {
-        const subscription: ISubscriptionObject = response.body;
+        const subscription: SubscriptionObject = response.body;
         subscription.created = new Date(subscription.created);
         subscription.modified = new Date(subscription.modified);
         subscription.handlerTypes = Array.isArray(subscription.handlerTypes) ? subscription.handlerTypes : [];

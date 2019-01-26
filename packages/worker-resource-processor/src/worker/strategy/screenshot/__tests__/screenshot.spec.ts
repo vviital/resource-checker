@@ -14,11 +14,16 @@ describe('ScreenshotStrategy', () => {
       expect((strategy as any).client.initialized).toBeTruthy();
 
       expect(result).toEqual(expect.objectContaining({
-        id: expect.any(String),
-        revisionObject: {
-          fileId: '1',
+        revision: expect.objectContaining({
+          created: expect.any(Date),
+          id: expect.any(String),
+          revisionObject: { fileId: '1' },
+          type: 'ScreenshotStrategy',
+        }),
+        score: {
+          score: 1,
+          weight: 1,
         },
-        type: 'ScreenshotStrategy',
       }));
     });
   });

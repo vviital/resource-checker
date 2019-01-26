@@ -1,4 +1,4 @@
-import { Comparator, IProcessorResult } from '../base';
+import { Comparator } from '../base';
 
 class DefaultScreenshotComparator extends Comparator {
 

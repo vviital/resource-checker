@@ -1,31 +1,43 @@
 import { isEqual } from 'lodash';
 
-import { IProcessorResult } from './base';
+import { Revision } from '@resource-checker/base/dest/clients/subscriptions';
 
 export const MAX_SCORE = 1;
 export const MIN_SCORE = 0;
 
-export interface IComparationResult {
+export type ComparationResult = {
   // the more score, the more likely pages are similar.
   score: number,
+  weight: number,
 }
 
 class Comparator {
-  protected compareArrayOfResults(array: IProcessorResult[], second: IProcessorResult): IComparationResult {
-    if (array.length === 0) return { score: MAX_SCORE };
+  protected _weight: number;
+
+  protected compareArrayOfResults(array: Revision[], second: Revision): ComparationResult {
+    if (array.length === 0) return { score: MAX_SCORE, weight: this.weight };
 
     const first = array[array.length - 1];
     
     return this.compareTwoResults(first, second);
   }
 
-  protected compareTwoResults(first: IProcessorResult, second: IProcessorResult): IComparationResult {
-    if (isEqual(first, second)) return { score: MAX_SCORE };
-
-    return { score: MIN_SCORE };
+  get weight() {
+    return this._weight || 1;
   }
 
-  public compare(first: IProcessorResult|IProcessorResult[], second: IProcessorResult): IComparationResult {
+  set weight(value: number) {
+    if (value > 0) this._weight = value;
+    else this._weight = 1;
+  }
+
+  protected compareTwoResults(first: Revision, second: Revision): ComparationResult {
+    if (isEqual(first, second)) return { score: MAX_SCORE, weight: this.weight };
+
+    return { score: MIN_SCORE, weight: this.weight };
+  }
+
+  public compare(first: Revision|Revision[], second: Revision): ComparationResult {
     if (Array.isArray(first)) {
       return this.compareArrayOfResults(first, second);
     }
